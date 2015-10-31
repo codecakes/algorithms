@@ -16,7 +16,7 @@ def binary_search(key, alist):
     ln = len(alist)
     lo,hi = 0, ln-1
 
-    while ( lo <= hi ):
+    while ( lo < hi ):
         mid = (lo+hi)/2
         #print "mid is %s" %mid
         if key < alist[mid]:
@@ -27,7 +27,7 @@ def binary_search(key, alist):
             return alist[mid]
 
     if lo == hi and alist[lo] == key:
-            return key
+        return key
     return None
 
 
