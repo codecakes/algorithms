@@ -39,10 +39,29 @@ def set_root(num, root, arr):
     #O(1)
     arr[num] = root
 
+def set_all_root(num1_root, num2_root, arr):
+    '''
+        ~lgN
+        Set root of all numbers pointing to the the num @num1_root to the num @ num2_root in arr
+    '''
+    res = arr
+    ln = len(res)/2
+    stack = [res[:ln], res[ln:]]
+    while stack:
+        #lgN
+        res = stack.pop()
+        if len(res) != 1:
+            ln = len(res)/2
+            stack.insert(0, res[ln:])
+            stack.insert(0, res[:ln])
+        elif res[0] == num1_root:
+            #O(1)
+            set_root(res[0], num2_root, arr)
+
 def get_size(key, arr):
     '''
-        Given a size_arr and leaf key, find the size of the tree given 
-            arr: hashmap/dict of roots and their tree's corresponding size count
+        Given a size_arr and leaf key, find the size of the tree given
+            arr: array of roots and their tree's corresponding size count
 
         Returns:
             count
@@ -54,6 +73,21 @@ def get_size(key, arr):
         count += 1
     return count
 
+def get_root_set_size(num, arr, size_arr):
+    '''
+    same as get_root but with side effect of setting size as well
+    '''
+    if arr[num] == None: return None
+    count = 1
+    #O(N)
+    while ( num != arr[num] ):
+        #set the current key's root if not set
+        #set_root(num, arr[num])
+        num = arr[num]
+        count += 1
+    set_size(num, count, size_arr)
+    return num
+
 def set_size(root_key, count, size_arr):
     '''
     Evaluate the size of each tree from arr and set it in size_arr
@@ -63,6 +97,34 @@ def set_size(root_key, count, size_arr):
     '''
     #O(1)
     size_arr[root_key] = count
+
+def find_greatest_element_component(num, arr):
+    '''
+        Add a method find() to the union-find data type so that find(i) returns
+        the largest element in the connected component containing i.
+        The operations, union(), connected(), and find() should all take logarithmic time or better.
+
+        For example, if one of the connected components is {1,2,6,9},
+        then the find() method should return 9 for each of the four elements in
+        the connected components because 9 is larger 1, 2, and 6.
+    '''
+    maximus = num
+    while ( num != arr[num] ):
+        num = arr[num]
+        if (maximus < num):
+            maximus = num
+    return maximus
+
+def find_lowest_element_component(num, arr):
+    '''
+        same as find_greatest_element_component except it finds the minimum element in the Tree component
+    '''
+    minimus = num
+    while ( num != arr[num] ):
+        num = arr[num]
+        if (minimus > num):
+            minimus = num
+    return minimus
 
 def qwc(num1, num2, arr, size_arr):
     '''
@@ -83,30 +145,30 @@ def qwc(num1, num2, arr, size_arr):
     #Find if there alrdy exists a connection no need for union
     if find_connection(num1, num2, arr): return None  #O(N)
 
-    #get the root key of the given current key #O(N)
-    num1_index = get_root(num1, arr)
-    num2_index = get_root(num2, arr)
+    #get the root key of the given current key #~lgN - ~(N)
+    num1_root = get_root(num1, arr)
+    num2_root = get_root(num2, arr)
 
     #set the current key's root if not set
     #O(1)
-    set_root(num1, num1_index, arr)
-    set_root(num2, num2_index, arr)
+    set_root(num1, num1_root, arr)
+    set_root(num2, num2_root, arr)
 
     #Get the size of the current root keys tree - O(1)
-    num1_tree_size = size_arr[num1_index]
-    num2_tree_size = size_arr[num2_index]
+    num1_tree_size = size_arr[num1_root]
+    num2_tree_size = size_arr[num2_root]
 
     #set the smaller tree's root to bigger one
-    if (num1_tree_size < num2_tree_size):
-        set_root(num1_index, num2_index, arr)
-        set_size(num2_index, size_arr[num2_index]+size_arr[num1_index], size_arr) #size_arr[num2_index] += size_arr[num1_index]
-        set_size( num1_index, size_arr[num2_index], size_arr )  #size_arr[num1_index] = size_arr[num2_index]
-        
+    if ( num2_tree_size > num1_tree_size ):
+        set_root(num1_root, num2_root, arr)
+        set_all_root(num1_root, num2_root, arr)
+        set_size(num2_root, size_arr[num2_root]+size_arr[num1_root], size_arr) #size_arr[num2_root] += size_arr[num1_root]
+        #set_size( num1_root, size_arr[num2_root], size_arr )  #size_arr[num1_root] = size_arr[num2_root]
     else:
-        set_root(num2_index, num1_index, arr)
-        size_arr[num1_index] += size_arr[num2_index]
-        size_arr[num2_index] = size_arr[num1_index]
-
+        set_root(num2_root, num1_root, arr)
+        set_all_root(num2_root, num1_root, arr)
+        set_size(num1_root, size_arr[num1_root]+size_arr[num2_root], size_arr)
+        #set_size(num2_root, size_arr[num1_root], size_arr)
     return arr
 
 
@@ -118,10 +180,10 @@ if __name__ == "__main__":
     arr = [i for i in xrange(max(numbers))]
     size_arr = {i: get_size(i, arr)+1 for i in arr}
 
-    #print find_connection(1, 2, arr)
-    #print get_root(1, arr)
-    #print get_root(2, arr)
-    #print size_arr
+    assert find_connection(1, 2, arr) == False
+    assert get_root(1, arr) == 1
+    assert get_root(2, arr) == 2
+    assert get_root(0, arr) == 0
 
     print qwc(1,2, arr, size_arr)
     print qwc(3,5, arr, size_arr)
@@ -138,12 +200,5 @@ if __name__ == "__main__":
     print "--"*10
     print qwc(23,2, arr, size_arr)
     print "--"*10
-
-    #rand = list({choice(arr) for i in arr})
-    #numbers = zip(rand[::2], rand[1::2])
-    #print numbers
-
-    #for edge in numbers:
-    #    print qwc(edge[0], edge[1], arr, size_arr)
 
 

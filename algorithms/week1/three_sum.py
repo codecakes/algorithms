@@ -33,7 +33,7 @@ def binary_search(key, alist):
 
 def three_sum(setList, resultNum):
     sets = set()
-    sortedList = sorted(setList)
+    sortedList = sorted(setList)  #O(N lgN)
     ln = len(sortedList)
 
     #O(N^2 lgN)
