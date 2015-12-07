@@ -1,5 +1,5 @@
-<<<<<<< HEAD
 social_network/*
+.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -58,4 +58,3 @@ docs/_build/
 
 # PyBuilder
 target/
->>>>>>> 07ee9e0c704867be8fb22e7370d5aed0b5eb39f2
