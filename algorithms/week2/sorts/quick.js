@@ -6,10 +6,12 @@
  *
  * Note: One could do stable quicksort with an Additional Array appraoch.
  * That would have more space cost and computational cost.
+ *
+ * ALWAYS SHUFFLE THE ARRAY FIRST
  */
-// Swaps two items in an array, changing the original array
 
 var swap = function(array, firstIndex, secondIndex) {
+    // Swaps two items in an array, changing the original array
     var temp = array[firstIndex];
     array[firstIndex] = array[secondIndex];
     array[secondIndex] = temp;
