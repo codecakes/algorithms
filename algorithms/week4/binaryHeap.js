@@ -19,8 +19,8 @@ var
     },
     _delNodesRelation= function _delNodesRelation(Node) {
         // remove relation with parent
-        if ( Node.parent.leftChild === Node.key ) { Node.parent.leftChild === undefined; }
-        else if ( Node.parent.rightChild === Node.key ) { Node.parent.rightChild === undefined; }
+        if ( Node.parent.leftChild === Node ) { Node.parent.leftChild === undefined; }
+        else if ( Node.parent.rightChild === Node ) { Node.parent.rightChild === undefined; }
         Node.parent = undefined;
 
         // remove relation with children
