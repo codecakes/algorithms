@@ -26,32 +26,32 @@ var
         return div( index,2 );
     },
 
-    _attachNodes= function _attachNodes(childNode, parentNode) {
-        // attach child node to parent and parent to child node at correct limb, Left or Right
-        childNode.parent = parentNode;
-        if ( childNode.key%2 === 0 ) {
-            parentNode.leftChild= childNode;
-        } else {
-            parentNode.rightChild = childNode;
-        }
-    },
+    // _attachNodes= function _attachNodes(childNode, parentNode) {
+    //     // attach child node to parent and parent to child node at correct limb, Left or Right
+    //     childNode.parent = parentNode;
+    //     if ( childNode.key%2 === 0 ) {
+    //         parentNode.leftChild= childNode;
+    //     } else {
+    //         parentNode.rightChild = childNode;
+    //     }
+    // },
 
-    _delNodesRelation= function _delNodesRelation(Node) {
-        // remove relation with parent
-        if ( Node.parent.leftChild === Node ) { Node.parent.leftChild = undefined; }
-        else if ( Node.parent.rightChild === Node ) { Node.parent.rightChild = undefined; }
-        Node.parent = undefined;
+    // _delNodesRelation= function _delNodesRelation(Node) {
+    //     // remove relation with parent
+    //     if ( Node.parent.leftChild === Node ) { Node.parent.leftChild = undefined; }
+    //     else if ( Node.parent.rightChild === Node ) { Node.parent.rightChild = undefined; }
+    //     Node.parent = undefined;
 
-        // remove relation with children
-        if ( !!Node.leftChild ) {
-            Node.leftChild.parent = undefined;
-            Node.leftChild = undefined;
-        }
-        if ( !!Node.rightChild ) {
-            Node.rightChild.parent = undefined;
-            Node.rightChild = undefined;
-        }
-    },
+    //     // remove relation with children
+    //     if ( !!Node.leftChild ) {
+    //         Node.leftChild.parent = undefined;
+    //         Node.leftChild = undefined;
+    //     }
+    //     if ( !!Node.rightChild ) {
+    //         Node.rightChild.parent = undefined;
+    //         Node.rightChild = undefined;
+    //     }
+    // },
 
     heapSwap = function heapSwap (array, Node1Key, Node2Key) {
         // Swaps two items in an array, keeping their respective relations
@@ -62,10 +62,10 @@ var
         array[Node2Key] = node1Val;
     },
 
-    hasChild = function hasChild(Node) {
-        // Does the Node have children?
-        return !!Node.leftChild || !!Node.rightChild;
-    },
+    // hasChild = function hasChild(Node) {
+    //     // Does the Node have children?
+    //     return !!Node.leftChild || !!Node.rightChild;
+    // },
 
     swimUpComparator = function swimUpComparator (arr, NodeKey) {
         // compare with parent if it's greater than the node
@@ -84,8 +84,7 @@ var
             rightNodeKey = nodeRightPos(NodeKey),
             leftNodeKey = nodeLeftPos(NodeKey),
             rightNode = arr[rightNodeKey],
-            leftNode = arr[leftNodeKey],
-            validNode, otherNode;
+            leftNode = arr[leftNodeKey];
 
         if ( childKeyLimit === rightNodeKey ) {
             rightNode = undefined;
@@ -223,9 +222,9 @@ var
         });
         log(list);
     },
-    // TODO: Recursively from bottom Node Tree to Root Node triangles heapify All
+
     heapifyAll: function function_name() {
-        // body...
+        // Recursively from bottom Node Tree to Root Node triangles heapify All
         for (var curPos = this._insertPos-1; curPos > 1;) {
             this.sinkDown(nodeParent(curPos));
 
