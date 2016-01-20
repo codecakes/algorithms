@@ -51,8 +51,9 @@ const
                     if ( this.sizeCtr > 0 ) {
                         this._old = this.firstNode;
                         this.firstNode = this.firstNode.next;
-                        this.nextNode = this.firstNode.next;
+                        this.nextNode = !!this.firstNode? this.firstNode.next: undefined;
                         this.sizeCtr--;
+                        return this._old;
                     }
                 },
                 isEmpty: function isEmpty() {
@@ -68,16 +69,33 @@ const
         return newStackObj;
     };
 
-/**
-var s = stackLL(50),
-log = console.log;
 
-log(s);
-s.pop();
-s.push(1);
-log(s);
-s.push(12);
-log(s);
-s.pop();
-log(s);
-*/
+// var s = stackLL(50),
+// log = console.log;
+
+// log(s);
+// s.pop();
+// s.push(1);
+// log(s);
+// s.push(12);
+// log(s);
+// s.pop();
+// log(s);
+
+// var s = stackLL(11),
+//     sw = true, val=0;
+
+// for (var i=0; i<=9; i++) {
+//     s.push(i);
+//     val = s.pop();
+//     if (!!val) console.log(val.val);
+//     // if (!!sw) s.push(i);
+//     // else {
+//     //     val = s.pop();
+//     //     if (!!val) console.log(val.val);
+//     // }
+
+//     // sw = !sw;
+// }
+
+exports.stack= stackLL;

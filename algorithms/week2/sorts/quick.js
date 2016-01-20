@@ -39,7 +39,7 @@ var partition = function(array, p, r) {
     //  swap array[r] with array[q], and return q.
     for (var lo=p, eq=p, hi=p; hi < r ;hi++) {
         // at this point hi ptr !== pivotIndex
-        if (array[eq] == pivot) {
+        if (array[eq] === pivot) {
             eq++;
         }
         if ( array[hi] < pivot && hi !== pivotIndex ) {
